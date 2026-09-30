@@ -1,0 +1,45 @@
+# Simple Data Analysis Notebook
+# Author: Abear
+# Purpose: Demonstrate basic Python literacy for AI evaluation roles
+
+import pandas as pd
+
+# ---- 1. Create a small dataset ----
+data = {
+    "Machine": ["Press A", "Press B", "Mill A", "Mill B"],
+    "Defects": [12, 5, 9, 3],
+    "Units_Produced": [1200, 1500, 1100, 900]
+}
+
+df = pd.DataFrame(data)
+
+# ---- 2. Calculate defect rate ----
+df["Defect_Rate"] = df["Defects"] / df["Units_Produced"]
+
+# ---- 3. Identify best and worst performers ----
+best_machine = df.loc[df["Defect_Rate"].idxmin()]
+worst_machine = df.loc[df["Defect_Rate"].idxmax()]
+
+# ---- 4. Print results ----
+print("=== Machine Quality Summary ===")
+print(df)
+
+print("\nBest Machine:")
+print(best_machine)
+
+print("\nWorst Machine:")
+print(worst_machine)
+
+# ---- 5. Simple evaluation logic (AI-style reasoning) ----
+def evaluate_machine(row):
+    if row["Defect_Rate"] < 0.01:
+        return "Excellent performance"
+    elif row["Defect_Rate"] < 0.02:
+        return "Acceptable performance"
+    else:
+        return "Needs investigation"
+
+df["Evaluation"] = df.apply(evaluate_machine, axis=1)
+
+print("\n=== Evaluation Summary ===")
+print(df[["Machine", "Defect_Rate", "Evaluation"]])
